@@ -105,7 +105,7 @@ int main()
     Game game = {GAME_CONTINUE,
                 {100, 700, 0, 0, heroMario},
                 {140, 700, 0, 0, heroLuigi},
-                {{700, 500, 100, 0, BirdNPC}, {600, 600, 100, 0, BirdNPC}, {200, 500, 100, 0, BirdNPC}, {300, 300, 100, 0, BirdNPC}, {700, 100, 100, 0, BirdNPC}},
+                {{700, 500, 200, 0, BirdNPC}, {600, 600, 100, 0, BirdNPC}, {200, 500, 100, 0, BirdNPC}, {300, 300, 100, 0, BirdNPC}, {700, 100, 100, 0, BirdNPC}},
                 0,
                 fonPicture,
                 mapPicture};
