@@ -1,0 +1,110 @@
+
+--------------------------------------------------
+TXLib соболезнует:
+
+Программа: X:\Mario\Source2.exe, файл: X:\Mario\Source2.cpp, строка: 101, функция: int main(),
+
+Сообщение: ВНЕЗАПНО: Логическая ошибка: Неверно, что "0".
+
+#1: TXLib [Ver: 00173a, Rev: 105], Instance: 0x004F62B4 (32-bit), Flags: CMdRe0, Thread: 0xD18 (Main), GetLastError(): 2 (Не удается найти указанный файл). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x0042600E in X:\Mario\Source2.exe: main() at X:/Mario/Source2.cpp (101):
+
+     99: 	ASSERT(heroLuigi);
+    100:     HDC mapPicture = txLoadImage("MapMaiio.bmp");
+=>  101:     ASSERT(mapPicture);
+    102:     HDC BirdNPC = txLoadImage("NPCBird.bmp");
+    103:     ASSERT(BirdNPC);
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library) - TXLib [Ver: 00173a, Rev: 105]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	X:\Mario\TXlib.h
+Compiled:	Mar  4 2017 20:46:02, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Mar 04 2017 20:46:05
+
+Run file:	X:\Mario\Source2.exe
+Directory:	X:\Mario
+
+--------------------------------------------------
+
+--------------------------------------------------
+TXLib сообщает:
+
+Программа: X:\Mario\Source2.exe, файл: X:\Mario\TXlib.h, строка: 10076, функция: POINT {anonymous}::TX::txGetExtent(HDC),
+
+Сообщение: Параметр "dc" неверен. Возможно, эта картинка не загружена, холст не создан или уже уничтожен.
+
+#1: TXLib [Ver: 00173a, Rev: 105], Instance: 0x004F62B4 (32-bit), Flags: CMdRe0, Thread: 0x1470 (Main), GetLastError(): 13 (Недопустимые данные). 
+
+--------------------------------------------------
+Стек вызовов:
+
+# 0 0x00418A5D in X:\Mario\Source2.exe: txGetExtent() at X:/Mario/TXlib.h (10076)
+# 1 0x00418C37 in X:\Mario\Source2.exe: txGetExtentY() at X:/Mario/TXlib.h (10096)
+
+# 2 0x00426499 in X:\Mario\Source2.exe: FonDraw() at X:/Mario/Source2.cpp (146):
+
+    144: void FonDraw(HDC fonPicture) //не только фон но и карта
+    145:     {
+=>  146:     txBitBlt(txDC(), -XCamera, YCamera + (txGetExtentY() - txGetExtentY(fonPicture)), 0, 0, fonPicture);
+    147:     }                                                                                                   //14102, 1300
+    148: 
+
+# 3 0x00426553 in X:\Mario\Source2.exe: GameRun() at X:/Mario/Source2.cpp (159):
+
+    157:     while (!GetAsyncKeyState(VK_ESCAPE))
+    158:         {
+=>  159:         FonDraw(game -> map);
+    160: 
+    161: 
+
+# 4 0x004261DC in X:\Mario\Source2.exe: main() at X:/Mario/Source2.cpp (125):
+
+    123:     txSetFillColor(TX_NULL);
+    124: 
+=>  125:     GameRun(&game);
+    126: 
+    127:     txEnd();
+
+--------------------------------------------------
+Стек вызовов TX:
+
+# 0 in POINT {anonymous}::TX::txGetExtent(HDC) at X:\Mario\TXlib.h (10076):
+
+  10074: $1  POINT err = {-1, -1};
+  10075: 
+=>10076: $   _TX_IF_HDC_FAILED (dc) return err;
+  10077: 
+  10078: $   BITMAP bmap = {0};
+
+# 1 in void FonDraw(HDC) at X:\Mario\Source2.cpp (146):
+
+    144: void FonDraw(HDC fonPicture) //не только фон но и карта
+    145:     {
+=>  146:     txBitBlt(txDC(), -XCamera, YCamera + (txGetExtentY() - txGetExtentY(fonPicture)), 0, 0, fonPicture);
+    147:     }                                                                                                   //14102, 1300
+    148: 
+
+--------------------------------------------------
+Developed with:
+
+The Dumb Artist Library (TX Library) - TXLib [Ver: 00173a, Rev: 105]
+Copyright (C) Ded (Ilya Dedinsky, http://txlib.ru) <mail@txlib.ru>
+See license on: http://txlib.ru
+
+TXLib file:	X:\Mario\TXlib.h
+Compiled:	Mar  4 2017 20:46:38, GNU g++ 4.8.1, std=201103L, MinGW Runtime 3.20, 32-bit, DEBUG
+Started:	Mar 04 2017 20:46:41
+
+Run file:	X:\Mario\Source2.exe
+Directory:	X:\Mario
+
+--------------------------------------------------
