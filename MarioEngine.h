@@ -87,13 +87,13 @@ STATE HeroPhysics(Hero* hero, double ay, double DT, double SpeedUp, ZONE Zone)
     {
     ASSERT(hero);
 
-    printf(" 6:MZ = %i ", Zone);
+    //printf(" 6:MZ = %i ", Zone);
 
-    if(Zone != SKY_ZONE)
+    if(Zone == WALKING_ZONE)
         {
-        hero -> vy = 0;
+        //hero -> vy = 0;
         //printf("vy = 0\n");
-        printf(" 7:MZ = %i  -> vy = 0\n", Zone);
+        //printf(" 7:MZ = %i  -> vy = 0", Zone);
         }
 
 
@@ -107,6 +107,14 @@ STATE HeroPhysics(Hero* hero, double ay, double DT, double SpeedUp, ZONE Zone)
     hero -> y = hero -> y + hero -> vy * DT;
 
     hero -> vy = hero -> vy + ay*DT;
+
+ /*
+    if(tekushayapoziciya + vx == UNDEFINED_ZONE)
+        {
+
+        }
+
+                                                                                                          */
 
     return GAME_CONTINUE;
     }
@@ -153,7 +161,7 @@ void NPC_Physics(Hero GameObjects[], int AmountOfObjects, double DT, double Spee
     {
     for(int i = 0; i < AmountOfObjects; i++)
         {
-        HeroPhysics(&GameObjects[i], 0, DT, SpeedUp, UNDEFINED_ZONE);
+        //HeroPhysics(&GameObjects[i], 0, DT, SpeedUp, UNDEFINED_ZONE);
         }
     }
 
