@@ -27,7 +27,7 @@
 
 
 
-const COLORREF SKY_COLOR    = RGB(112, 132, 255);
+const COLORREF SKY_COLOR    = RGB(255, 0, 255);
 const COLORREF GROUND_COLOR = RGB(0, 255, 0);
 const COLORREF DANGER_COLOR = RGB(255, 0, 0);
 const int MAX_NPC = 5;
@@ -47,7 +47,7 @@ struct Game
 
 
 void GameRun(Game *game);
-void Controls(Hero *hero, int up, int left, int right, double* SpeedUp, ZONE Zone);
+void Controls(Hero *hero, int up, int left, int right, double* SpeedUp, ZONE Zone, Game* game);
 void BirdRespawn(Hero GameObjects[], int AmountOfObjects);
 ZONE HeroZONE(Hero hero);
 STATE HeroLogic(Hero *hero, ZONE Zone);
@@ -126,7 +126,7 @@ void GameRun(Game *game)
 
 
         ZONE ZoneMario = HeroZONE(game -> mario);
-        ZONE ZoneLuigi = HeroZONE(game -> luigi);
+        ZONE ZoneLuigi = UNDEFINED_ZONE;//HeroZONE(game -> luigi);
 
         HeroLogic(& game -> mario, ZoneMario);
         HeroLogic(& game -> luigi, ZoneLuigi);
@@ -139,7 +139,8 @@ void GameRun(Game *game)
             GameRestart(game);
             }
 
-        printf("MARIOZONE = %i \n", ZoneMario);
+        printf(" 1:MZ = %i ", ZoneMario);
+
 
         if(!GetAsyncKeyState (VK_F12))  FonDraw(game -> fon);
 
@@ -147,18 +148,29 @@ void GameRun(Game *game)
         HeroDraw(game -> luigi);
         DrawAll(game -> NPC, MAX_NPC);
 
+        printf(" 2:MZ = %i ", ZoneMario);
+
         //printf("BirdX = %lg, BirdY = %lg \n", game -> NPC.x, game -> NPC.y);
 
-        Controls(& game -> mario, VK_SPACE,  VK_LEFT, VK_RIGHT, &SpeedUp, ZoneMario);
-        Controls(& game -> luigi, 'W', 'A', 'D', &SpeedUp, ZoneLuigi);
+        Controls(& game -> mario, VK_SPACE,  VK_LEFT, VK_RIGHT, &SpeedUp, ZoneMario, game);
+
+        printf(" 3:MZ = %i ", ZoneMario);
+
+        //Controls(& game -> luigi, 'W', 'A', 'D', &SpeedUp, ZoneLuigi);
         /////////////////////////////////////////////////////////////////////
 
         /////////////////////////////////////////////////////////////////////
+        NPC_Physics(game -> NPC, MAX_NPC, DT, SpeedUp);
+        printf(" 4:MZ = %i ", ZoneMario);
+
+        //printf("Mario Vy = %lg \n", game -> mario.vy);
 
         BirdRespawn(game -> NPC, MAX_NPC);
 
+        printf(" 5:MZ = %i ", ZoneMario);
+
         HeroPhysics(& game -> mario, ay, DT, SpeedUp, ZoneMario);
-        HeroPhysics(& game -> luigi, ay, DT, SpeedUp, ZoneLuigi);
+        //HeroPhysics(& game -> luigi, ay, DT, SpeedUp, ZoneLuigi);
 
 
 
@@ -170,13 +182,14 @@ void GameRun(Game *game)
 
 
 // управление
-void Controls(Hero* hero, int up, int left, int right, double* SpeedUp, ZONE Zone)
+void Controls(Hero* hero, int up, int left, int right, double* SpeedUp, ZONE Zone, Game* game)
     {
     if (GetAsyncKeyState(up) && Zone == WALKING_ZONE)
         {
-        (hero->y) -= 20;
-        (hero->vy) -= 20;
+        hero -> y -= 300;
+        hero -> vy -= 50;
         }
+
 
     if (GetAsyncKeyState(right))    hero -> vx += *SpeedUp;
     if (GetAsyncKeyState(left))     hero -> vx -= *SpeedUp;
@@ -190,7 +203,8 @@ void Controls(Hero* hero, int up, int left, int right, double* SpeedUp, ZONE Zon
         *SpeedUp = 1;
         }
 
-    cout << "\n" << hero->vx << "\t";
+
+    //cout << "\n" << hero->vx << "\t";
     }
 
 
@@ -218,9 +232,12 @@ ZONE HeroZONE(Hero hero)
     COLORREF PixelColorMHEAD    = txGetPixel(hero.x - XCamera,      hero.y - YCamera - 32); txCircle(hero.x - XCamera,      hero.y - YCamera - 32, r);
     COLORREF PixelColorML       = txGetPixel(hero.x - XCamera,      hero.y - YCamera + 32); txCircle(hero.x - XCamera,      hero.y - YCamera + 32, r);
 
-    if(PixelColorRL == SKY_COLOR && PixelColorRH == SKY_COLOR && PixelColorLL == SKY_COLOR && PixelColorLH == SKY_COLOR &&
-       PixelColorRHEAD == SKY_COLOR && PixelColorLHEAD == SKY_COLOR && PixelColorMHEAD == SKY_COLOR && PixelColorML == SKY_COLOR)
+    printf("\nLL = 0x%06X ", PixelColorLL);
+
+    if(/*PixelColorRL == SKY_COLOR && PixelColorRH == SKY_COLOR && */PixelColorLL == SKY_COLOR/* && PixelColorLH == SKY_COLOR &&
+       PixelColorRHEAD == SKY_COLOR && PixelColorLHEAD == SKY_COLOR && PixelColorMHEAD == SKY_COLOR && PixelColorML == SKY_COLOR*/)
         {
+        printf("***");
         return SKY_ZONE;
         }
 
